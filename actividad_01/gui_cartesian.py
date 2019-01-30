@@ -15,15 +15,20 @@ def onclick(event):
         relativePoints(final_points)
 
 def setupPlane(points=[]):
-    plt.plot(range(300), linewidth=1.0)
+
+    plt.plot(range(300), linewidth=0)
     plt.grid()
 
     fig.canvas.mpl_connect('button_press_event', onclick)
+
     ax.legend()
     drawPoint(points)
     relativePoints(final_points)
+
     plt.show()
+
     files.writeCSVFrom(final_points, "points_final")
+    files.writeCSVFrom(relativePoints(final_points), "valores_relativos")
 
 def drawPoint(points=[]):
     color=['red', 'green', 'blue']
@@ -33,6 +38,7 @@ def drawPoint(points=[]):
         y = point[1]
         print(x, " valor ", y, " con respecto a ", point )
         final_points.append([int(x), int(y)])
+        relativePoints(final_points)
 
         ax.scatter(int(x), int(y), c=color[0], s=scale, alpha=0.3, edgecolors='face')
 
