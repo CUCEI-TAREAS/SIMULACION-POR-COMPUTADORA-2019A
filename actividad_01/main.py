@@ -11,8 +11,10 @@ if __name__ == "__main__":
 
     file_selected = files.selectFile()
 
-    points = []
+    points = list()
+
     if isinstance(file_selected, (str)):
         points = files.getListFromCSV(file_selected)
 
+    print("from the main", points)
     plane.setupPlane(points)
