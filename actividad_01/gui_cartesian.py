@@ -1,7 +1,11 @@
+import gui_loadfile as files
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 fig, ax = plt.subplots()
+
+final_points = list()
 
 def onclick(event):
     print(event.button, event.xdata, event.ydata)
@@ -17,6 +21,7 @@ def setupPlane(points=[]):
     ax.legend()
     drawPoint(points)
     plt.show()
+    files.writeCSVFrom(final_points, "points_final")
 
 def drawPoint(points=[]):
     color=['red', 'green', 'blue']
@@ -25,7 +30,9 @@ def drawPoint(points=[]):
         x = point[0]
         y = point[1]
         print(x, " valor ", y, " con respecto a ", point )
+        final_points.append([int(x), int(y)])
 
         ax.scatter(int(x), int(y), c=color[0], s=scale, alpha=0.3, edgecolors='face')
 
     plt.show()
+

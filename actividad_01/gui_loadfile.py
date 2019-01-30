@@ -22,3 +22,7 @@ def getListFromCSV(path):
 
     return points
 
+def writeCSVFrom(points, namefile):
+    with open(namefile, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerows(points)
