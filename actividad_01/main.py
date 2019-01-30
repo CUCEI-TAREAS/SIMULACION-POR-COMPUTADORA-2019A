@@ -12,5 +12,3 @@ if __name__ == "__main__":
     file_selected = files.selectFile()
     points = files.getListFromCSV(file_selected)
     plane.setupPlane(points)
-    file_selected.quite()
-

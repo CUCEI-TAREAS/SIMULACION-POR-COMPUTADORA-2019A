@@ -1,22 +1,23 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+fig, ax = plt.subplots()
+
+def onclick(event):
+    print(event.xdata, event.ydata)
+    drawPoint([[int(event.xdata), int(event.ydata)]])
+
 def setupPlane(points=[]):
-    fig, ax = plt.subplots()
+    #ax.plot(range(300))
+    #ax.axis('on', xscale='log', yscale='log', xmin=0, ymin=0, xmax=300, ymax=300, str="equal")
+    fig.canvas.mpl_connect('button_press_event', onclick)
+    drawPoint(points)
 
-    ax.axis('on', xscale='log', yscale='log', xmin=0, ymin=0, xmax=300, ymax=300, str="equal")
-    #ax.axis(str="tight")
-
-    #drawPoint(points, ax)
-
-    ax.legend()
-    ax.grid(True)
-    plt.show()
     #mng = plt.get_current_fig_manager()
     #mng.frame.Maximize(True)
 
 
-def drawPoint(points, ax):
+def drawPoint(points):
     print(points)
     color=['red', 'green', 'blue']
     scale = 200
@@ -27,4 +28,6 @@ def drawPoint(points, ax):
 
         ax.scatter(x, y, c=color[0], s=scale, alpha=0.3, edgecolors='face')
 
-
+    ax.legend()
+    ax.grid(True)
+    plt.show()
