@@ -12,6 +12,7 @@ def onclick(event):
 
     if event.button == 3:
         drawPoint([[int(event.xdata), int(event.ydata)]])
+        relativePoints(final_points)
 
 def setupPlane(points=[]):
     plt.plot(range(300), linewidth=1.0)
@@ -20,6 +21,7 @@ def setupPlane(points=[]):
     fig.canvas.mpl_connect('button_press_event', onclick)
     ax.legend()
     drawPoint(points)
+    relativePoints(final_points)
     plt.show()
     files.writeCSVFrom(final_points, "points_final")
 
@@ -36,3 +38,26 @@ def drawPoint(points=[]):
 
     plt.show()
 
+
+def relativePoints(final_points):
+
+    aux_x = final_points[0][0]
+    aux_y = final_points[0][1]
+
+    aux2_x = aux_x * -1
+    aux2_y = aux_y * -1
+
+    rel = list()
+    rel.append(final_points[0])
+
+    for point in final_points[1:]:
+        aux_x = point[0] + aux2_x
+        aux_y = point[1] + aux2_y
+
+        rel.append([aux_x, aux_y])
+
+        aux2_x -= aux_x
+        aux2_y -= aux_y
+
+    print("VALORES RELATIVOS: ", rel)
+    return rel
