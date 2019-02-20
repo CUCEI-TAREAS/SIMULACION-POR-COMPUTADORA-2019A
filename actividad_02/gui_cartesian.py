@@ -1,3 +1,4 @@
+import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -7,14 +8,17 @@ fig, ax = plt.subplots()
 
 final_points = list()
 
+dda_time_inicio = datetime.datetime.now()
+
 def onclick(event):
 
     if event.button == 3:
-        print(event.xdata, event.ydata)
+        print(int(round(event.xdata)), int(round(event.ydata)))
 
         if final_points == []:
             final_points.append([int(round(event.xdata)), int(round(event.ydata))])
         else:
+            dda_time_inicio = datetime.datetime.now()
             dda(final_points[0][0], final_points[0][1], int(round(event.xdata)), int(round(event.ydata)))
 
 def setupPlane():
@@ -36,7 +40,7 @@ def drawPoint(points=[], col=0):
     for point in points:
         x = point[0]
         y = point[1]
-        print(x, " valor ", y, " con respecto a ", point )
+        #print(x, " valor ", y, " con respecto a ", point )
 
         ax.scatter(int(x), int(y), c=color[col], s=scale, alpha=0.3, edgecolors='face')
         #im1 = ax.imshow(rand(10, 5), extent=(1, 2, 1, 2), picker=True)
@@ -66,6 +70,7 @@ def dda(xi, yi, xf, yf):
 
     if t == 2:
         print("error, same point")
+        final_points.clear()
         return -1
 
     if t != 1:
@@ -82,7 +87,7 @@ def dda(xi, yi, xf, yf):
         for i in range(yi, yf, inc):
             yact = b
             drawPoint([[round(yact), i]], 2)
-            print("from ordenada")
+            #print("from ordenada")
 
     elif absisa:
 
@@ -93,7 +98,7 @@ def dda(xi, yi, xf, yf):
         for i in range(xi, xf, inc):
             yact = b
             drawPoint([i, [round(yact)]], 2)
-            print("from absisa")
+            #print("from absisa")
 
     elif m >= 1:
 
@@ -103,7 +108,7 @@ def dda(xi, yi, xf, yf):
         for i in range(yi, yf, inc):
             yact = (i - b) / m
             drawPoint([[round(yact), i]], 2)
-            print("from m >= 1")
+            #print("from m >= 1")
 
     elif m > -1 :
         if xi > xf :
@@ -112,7 +117,7 @@ def dda(xi, yi, xf, yf):
         for i in range(xi, xf, inc):
             yact = ( m * i) + b
             drawPoint([[i, round(yact)]], 2)
-            print("from m > 0")
+            #print("from m > 0")
 
     elif m <= -1 :
         if yi > yf :
@@ -121,9 +126,12 @@ def dda(xi, yi, xf, yf):
         for i in range(yi, yf, inc):
             yact = (i - b) / m
             drawPoint([[round(yact),i]], 2)
-            print("from m >= -1")
+            #print("from m >= -1")
 
 
-    print(m)
+    #print(m)
     final_points.clear()
+    dda_time_end = datetime.datetime.now()
+    dda_time = dda_time_inicio - dda_time_end
+    print("TIME EXECUTION FOR DDA :", dda_time.microseconds, "MICROSECONDS")
     plt.show()
