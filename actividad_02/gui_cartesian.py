@@ -16,7 +16,11 @@ def onclick(event):
         if final_points == []:
             final_points.append([int(round(event.xdata)), int(round(event.ydata))])
         else:
-            dda(final_points[0][0], final_points[0][1], int(round(event.xdata)), int(round(event.ydata)))
+            x = final_points[0][0]
+            y = final_points[0][1]
+
+            bresenham(x, y, int(round(event.xdata)), int(round(event.ydata)))
+            dda(x, y, int(round(event.xdata)), int(round(event.ydata)))
 
 def setupPlane():
 
@@ -39,7 +43,7 @@ def drawPoint(points=[], col=0):
         y = point[1]
         #print(x, " valor ", y, " con respecto a ", point )
 
-        ax.scatter(int(x), int(y), c=color[col], s=scale, alpha=0.3, edgecolors='face')
+        ax.scatter(int(x), int(y), c=color[col], s=scale, alpha=0.2, edgecolors='face')
         #im1 = ax.imshow(rand(10, 5), extent=(1, 2, 1, 2), picker=True)
 
 
@@ -131,6 +135,41 @@ def dda(xi, yi, xf, yf):
     dda_time_end = datetime.datetime.now()
     dda_time = dda_time_inicio - dda_time_end
     print("TIME EXECUTION FOR DDA :",dda_time.seconds, "SECONDS AND ", dda_time.microseconds, "MICROSECONDS")
+    #print("TIME DIFF BRESENHAN - DDA :", bres_time.seconds - dda_time.seconds, "SECONDS AND ", bres_time.microseconds - dda_time.microseconds, "MICROSECONDS")
     plt.show()
 
+
 def bresenham(xi, yi, xf, yf):
+
+    bres_time_inicio = datetime.datetime.now()
+
+    dx = abs(xf - xi)
+    dy = abs(yf - yi)
+    x, y = xi, yi
+    sx = -1 if xi > xf else 1
+    sy = -1 if yi > yf else 1
+    if dx > dy:
+        err = dx / 2.0
+        while x != xf:
+            drawPoint([[x,y]],0)
+            err -= dy
+            if err < 0:
+                y += sy
+                err += dx
+            x += sx
+    else:
+        err = dy / 2.0
+        while y != yf:
+            drawPoint([[x,y]],0)
+            err -= dx
+            if err < 0:
+                x += sx
+                err += dy
+            y += sy        
+
+    drawPoint([[x,y]],0)
+
+    bres_time_end = datetime.datetime.now()
+    bres_time = bres_time_inicio - bres_time_end
+    print("TIME EXECUTION FOR BRESENHAN :", bres_time.seconds, "SECONDS AND ", bres_time.microseconds, "MICROSECONDS")
+
