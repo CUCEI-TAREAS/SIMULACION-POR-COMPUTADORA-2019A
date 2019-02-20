@@ -13,9 +13,9 @@ def onclick(event):
         print(event.xdata, event.ydata)
 
         if final_points == []:
-            final_points.append([round(event.xdata), round(event.ydata)])
+            final_points.append([int(round(event.xdata)), int(round(event.ydata))])
         else:
-            dda(int(final_points[0][0]), int(final_points[0][1]), int(round(event.xdata)), int(round(event.ydata)))
+            dda(final_points[0][0], final_points[0][1], int(round(event.xdata)), int(round(event.ydata)))
 
 def setupPlane():
 
@@ -55,8 +55,7 @@ def dda(xi, yi, xf, yf):
     dx = xf - xi
 
     m = 0
-    # if dy is 0 is rect on X, evalute on y
-    # ordenada es y
+
     if dy == 0:
         t += 1
         absisa = True
@@ -81,8 +80,9 @@ def dda(xi, yi, xf, yf):
             b = yf
 
         for i in range(yi, yf, inc):
-            yact = (i - b)
+            yact = b
             drawPoint([[round(yact), i]], 2)
+            print("from ordenada")
 
     elif absisa:
 
@@ -92,22 +92,38 @@ def dda(xi, yi, xf, yf):
 
         for i in range(xi, xf, inc):
             yact = b
-            drawPoint([i, [round(yact)]], 1)
+            drawPoint([i, [round(yact)]], 2)
+            print("from absisa")
 
-    if m >= 1:
-        if xi > xf :
+    elif m >= 1:
+
+        if yi > yf :
             inc = -1
 
         for i in range(yi, yf, inc):
             yact = (i - b) / m
             drawPoint([[round(yact), i]], 2)
-    else:
+            print("from m >= 1")
+
+    elif m > -1 :
         if xi > xf :
             inc = -1
 
         for i in range(xi, xf, inc):
-            yact = m * i + b
-            drawPoint([[i, round(yact)]], 1)
+            yact = ( m * i) + b
+            drawPoint([[i, round(yact)]], 2)
+            print("from m > 0")
 
+    elif m <= -1 :
+        if yi > yf :
+            inc = -1
+
+        for i in range(yi, yf, inc):
+            yact = (i - b) / m
+            drawPoint([[round(yact),i]], 2)
+            print("from m >= -1")
+
+
+    print(m)
     final_points.clear()
     plt.show()
