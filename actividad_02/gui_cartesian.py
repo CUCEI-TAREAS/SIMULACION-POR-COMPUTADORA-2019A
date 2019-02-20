@@ -8,8 +8,6 @@ fig, ax = plt.subplots()
 
 final_points = list()
 
-dda_time_inicio = datetime.datetime.now()
-
 def onclick(event):
 
     if event.button == 3:
@@ -18,7 +16,6 @@ def onclick(event):
         if final_points == []:
             final_points.append([int(round(event.xdata)), int(round(event.ydata))])
         else:
-            dda_time_inicio = datetime.datetime.now()
             dda(final_points[0][0], final_points[0][1], int(round(event.xdata)), int(round(event.ydata)))
 
 def setupPlane():
@@ -48,6 +45,8 @@ def drawPoint(points=[], col=0):
 
 
 def dda(xi, yi, xf, yf):
+
+    dda_time_inicio = datetime.datetime.now()
 
     ordenada = False
     absisa = False
@@ -87,9 +86,7 @@ def dda(xi, yi, xf, yf):
         for i in range(yi, yf, inc):
             yact = b
             drawPoint([[round(yact), i]], 2)
-            #print("from ordenada")
-
-    elif absisa:
+            #print("from ordenada") elif absisa:
 
         if xi > xf :
             inc = -1
@@ -133,5 +130,7 @@ def dda(xi, yi, xf, yf):
     final_points.clear()
     dda_time_end = datetime.datetime.now()
     dda_time = dda_time_inicio - dda_time_end
-    print("TIME EXECUTION FOR DDA :", dda_time.microseconds, "MICROSECONDS")
+    print("TIME EXECUTION FOR DDA :",dda_time.seconds, "SECONDS AND ", dda_time.microseconds, "MICROSECONDS")
     plt.show()
+
+def bresenham(xi, yi, xf, yf):
