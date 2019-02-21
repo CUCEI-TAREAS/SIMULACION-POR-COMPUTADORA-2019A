@@ -7,6 +7,7 @@ from matplotlib.image import AxesImage
 fig, ax = plt.subplots()
 
 final_points = list()
+dist = list()
 
 def onclick(event):
 
@@ -135,7 +136,8 @@ def dda(xi, yi, xf, yf):
     dda_time_end = datetime.datetime.now()
     dda_time = dda_time_inicio - dda_time_end
     print("TIME EXECUTION FOR DDA :",dda_time.seconds, "SECONDS AND ", dda_time.microseconds, "MICROSECONDS")
-    #print("TIME DIFF BRESENHAN - DDA :", bres_time.seconds - dda_time.seconds, "SECONDS AND ", bres_time.microseconds - dda_time.microseconds, "MICROSECONDS")
+    print("TIME DIFF BRESENHAN - DDA :", dist[0].seconds - dda_time.seconds, "SECONDS AND ", dist[0].microseconds - dda_time.microseconds, "MICROSECONDS")
+    dist.clear()
     plt.show()
 
 
@@ -171,5 +173,7 @@ def bresenham(xi, yi, xf, yf):
 
     bres_time_end = datetime.datetime.now()
     bres_time = bres_time_inicio - bres_time_end
+    dist.append(bres_time)
+
     print("TIME EXECUTION FOR BRESENHAN :", bres_time.seconds, "SECONDS AND ", bres_time.microseconds, "MICROSECONDS")
 
