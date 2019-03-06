@@ -2,9 +2,9 @@
 
 import sys
 
-import gui_cartesian as plane
+import plane
 
 if __name__ == "__main__":
 
-    print(" starting ")
-    plane.setupPlane()
+    print("STARTING")
+    plan = plane.Plane()
