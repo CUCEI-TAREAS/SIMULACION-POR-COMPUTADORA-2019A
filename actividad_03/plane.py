@@ -60,18 +60,39 @@ class Plane:
             self.drawPoint(_points=r, color="black", scale=40, alpha=.9)
 
             dda_time_inicio = datetime.datetime.now()
-            self.drawPoint(circle.dda_circle(c, r), color='red', scale=0.3)
+
+            dda = circle.dda_circle(c, r)
+            self.drawPoint(dda, color='red', scale=0.9)
+
             dda_time_end = datetime.datetime.now()
             dda_time = dda_time_inicio - dda_time_end
-            print("TIME EXECUTION DDA :",dda_time.seconds, "SECONDS AND ", dda_time.microseconds, "MICROSECONDS")
+            print("TIME EXECUTION DDA :", dda_time.seconds, "SECONDS AND ", dda_time.microseconds, "MICROSECONDS")
 
             bres_time_inicio = datetime.datetime.now()
-            self.drawPoint(circle.bresenham_circle(c, r), scale=0.3)
+
+            bresenham = circle.bresenham_circle(c, r)
+            self.drawPoint(bresenham, scale=0.9)
+
             bres_time_end = datetime.datetime.now()
             bres_time = bres_time_inicio - bres_time_end
+
             print("TIME EXECUTION BRESENHAM :",bres_time.seconds, "SECONDS AND ", bres_time.microseconds, "MICROSECONDS")
             print("TIME DIFFERENCE :", bres_time.seconds - dda_time.seconds, \
-                    "SECONDS AND ", bres_time.microseconds - dda_time.microseconds , "MICROSECONDS")
+                   "SECONDS AND ", bres_time.microseconds - dda_time.microseconds , "MICROSECONDS")
+
+            print("DDA POINTS")
+            for x in dda:
+                print(x)
+
+
+            print("BRESENHAM POINTS")
+            for x in bresenham:
+                print(x)
+
+            print("COMMON POINTS")
+            for x in dda:
+                if x in bresenham:
+                    print(x)
 
             #plt.waitforbuttonpress()
 
