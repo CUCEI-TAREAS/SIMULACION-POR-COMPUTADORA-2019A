@@ -55,15 +55,15 @@ class Plane:
             c = pts.Point(a[0], a[1])
             r = pts.Point(b[0], b[1])
 
-            self.drawPoint(_points=c)
-            self.drawPoint(_points=r)
+            self.drawPoint(_points=c, color="purple", scale=40, alpha=.9)
+            self.drawPoint(_points=r, color="black", scale=40, alpha=.9)
 
             self.drawPoint(circle.bresenham_circle(c, r))
             self.drawPoint(circle.dda_circle(c, r), color='green')
             #plt.waitforbuttonpress()
 
 
-    def drawPoint(self, _points=None, color='blue', scale=10):
+    def drawPoint(self, _points=None, color='blue', scale=10, alpha=0.2):
 
         if isinstance(_points, list):
 

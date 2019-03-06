@@ -14,9 +14,9 @@ def bresenham_circle(center, curve):
     """
     radius = int(pts.distance_between_points(center, curve))
 
-    f = 1 - radius
+    f = int(1 - radius)
     ddf_x = 1
-    ddf_y = -2 * radius
+    ddf_y = int(-2 * radius)
 
     x = 0
     y = radius
@@ -67,10 +67,8 @@ def dda_circle(center, curve):
     """
 
     radius = pts.distance_between_points(center, curve)
-    print(radius)
 
     radius_2 = radius * radius
-    print(radius_2)
 
     points = list()
 
@@ -81,7 +79,7 @@ def dda_circle(center, curve):
         x3 = x2 * x2
 
         y2 = abs( int( radius_2 - x3 ) )
-        y = math.sqrt( y2 )
+        y = int(math.sqrt( y2 ))
 
         points.append(pts.Point(x, center.y + y ))
         points.append(pts.Point(x, center.y - y ))
@@ -93,7 +91,7 @@ def dda_circle(center, curve):
         x3 = x2 * x2
 
         y2 = abs( int( radius_2 - x3 ) )
-        y = math.sqrt( y2 )
+        y = int(math.sqrt( y2 ))
 
         points.append(pts.Point(center.x + y, x ))
         points.append(pts.Point(center.x - y, x ))
