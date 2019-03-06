@@ -1,27 +1,77 @@
 #!/usr/bin/env
 
 import sys
+import math
 
 import matplotlib.pyplot as plt
+import numpy as np
 
-from points import Point
+import points as pts
+import circle
 
 class Plane:
 
     # TODO: implement features with kwargs
-    def __init__(self, fname=None, **kwargs):
+    def __init__(self, points=None,fname=None, **kwargs):
 
+        if not points:
+            self.points = []
 
-        if kwargs:
+        else:
+            self.points = points
+
+        if not kwargs:
             with plt.rc_context(rc=kwargs):
                 self.fig, self.ax = plt.subplots()
-                plt.show()
 
         else:
             self.fig, self.ax = plt.subplots()
-            plt.show()
 
-    # euclidean distance
-    def distance(PointA, PointB):
-         return math.sqrt(math.pow(( PointA.x - PointB.x), 2) + math.pow(( PointA.y - PointB.y), 2))
+    def right_click(self, event):
+        if event.button == 3:
+            # TODO unstable:  implement correct way to clean
+            plt.cla()
+            self.start()
+            print('click')
+
+    
+	# TODO implement features with kwargs
+    def start(self):
+        plt.ion()
+        plt.title("DDA & BRESENHAM CIRCLE", fontsize=16)
+        plt.plot(range(0, 300), linewidth=0)
+        plt.axis("equal")
+        plt.grid(True)
+
+        self.fig.canvas.mpl_connect('button_press_event', self.right_click)
+        self.ax.legend()
+
+        while(True):
+
+            plt.draw()
+
+            a, b =  np.asarray(plt.ginput(2, timeout=-1))
+
+            c = pts.Point(a[0], a[1])
+            r = pts.Point(b[0], b[1])
+
+            self.drawPoint(_points=c)
+            self.drawPoint(_points=r)
+
+            self.drawPoint(circle.bresenham_circle(c, r))
+            #plt.waitforbuttonpress()
+
+
+    def drawPoint(self, _points=None, color='blue', scale=10):
+
+        if isinstance(_points, list):
+
+            for point in _points:
+                self.ax.scatter(point.x, point.y, c=color, s=scale, alpha=0.2, edgecolors='face')
+                self.points.append(point)
+
+        else:
+
+            self.ax.scatter(_points.x, _points.y, c=color, s=scale, alpha=0.2, edgecolors='face')
+            self.points.append(_points)
 
