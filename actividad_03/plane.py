@@ -59,6 +59,7 @@ class Plane:
             self.drawPoint(_points=r)
 
             self.drawPoint(circle.bresenham_circle(c, r))
+            self.drawPoint(circle.dda_circle(c, r), color='green')
             #plt.waitforbuttonpress()
 
 
