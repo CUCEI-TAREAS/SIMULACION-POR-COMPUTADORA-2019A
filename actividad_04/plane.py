@@ -69,7 +69,6 @@ class Plane:
             dda_time = dda_time_inicio - dda_time_end
             print("TIME EXECUTION DDA :", dda_time.seconds, "SECONDS AND ", dda_time.microseconds, "MICROSECONDS")
 
-            """
             bres_time_inicio = datetime.datetime.now()
 
             bresenham = ellipse.bresenham_ellipse(c, r)
@@ -97,7 +96,6 @@ class Plane:
                     print(x)
 
             #plt.waitforbuttonpress()
-            """
 
 
     def drawPoint(self, _points=None, color='blue', scale=10, alpha=0.2):
