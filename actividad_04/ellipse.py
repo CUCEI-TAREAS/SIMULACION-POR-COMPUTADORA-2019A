@@ -36,7 +36,7 @@ def dda_ellipse(center, curve):
 
     for x in range(int(rx)):
 
-        y = float(math.sqrt( (rx2ry2 - (float(x**2) * ry2)) / float(rx2)))
+        y = float(math.sqrt( (rx2ry2 - (float( x ** 2) * ry2)) / float(rx2)))
 
         points.append(pts.Point(center.x + x, center.y + y ))
         points.append(pts.Point(center.x + x, center.y - y ))
@@ -46,7 +46,7 @@ def dda_ellipse(center, curve):
 
     for y in range(int(ry)):
 
-        x = float(math.sqrt( (rx2ry2 - (float(y**2) * rx2)) / float(ry2)))
+        x = float(math.sqrt( (rx2ry2 - (float(y ** 2) * rx2)) / float(ry2)))
 
         points.append(pts.Point(center.x + x, center.y + y ))
         points.append(pts.Point(center.x + x, center.y - y ))
@@ -66,35 +66,54 @@ def bresenham_ellipse(center, curve):
         return: list of points representing the ellipse
     """
 
-    radius = pts.distance_between_points(center, curve)
-
-    radius_2 = radius * radius
+    rx = get_axis_x(curve, center)
+    ry = get_axis_y(curve, center)
 
     points = list()
 
-    # for x 
-    for x in range( int(center.x - radius), int(center.x + radius), 1 ):
+    x = float(0)
+    y = float(ry)
 
-        x2 = center.x - x
-        x3 = x2 * x2
+    rx2 = float(rx ** 2)
+    ry2 = float(ry ** 2)
 
-        y2 = abs( radius_2 - x3 )
-        y = math.sqrt( y2 )
+    pk = ry2 - (rx2 * ry) + (0.25 * rx2)
 
-        points.append(pts.Point(x, center.y + y ))
-        points.append(pts.Point(x, center.y - y ))
+    while (2 * ry2 * x) <= (2 * rx2 * y):
 
-    # for y 
-    for x in range( int(center.y - radius), int(center.y + radius), 1 ):
+        points.append(pts.Point(center.x + x, center.y + y ))
+        points.append(pts.Point(center.x + x, center.y - y ))
+        points.append(pts.Point(center.x - x, center.y + y ))
+        points.append(pts.Point(center.x - x, center.y - y ))
 
-        x2 = center.y - x
-        x3 = x2 * x2
+        if pk < 0:
+            x += 1
+            pk = pk + (2 * ry2 * x) + ry2
+        else:
+            x += 1
+            y -= 1
+            #pk = pk + (2 * ry2 * x) - (2 * rx2 * y) + ry2
+            pk = pk + (2 * ry2 * x + ry2 ) - (2 * rx2 * y)
+        
 
-        y2 = abs( radius_2 - x3 )
-        y = math.sqrt( y2 )
+    #pk2 = (ry2) * (x + 0.5)*2 + (rx2) * (y - 1)*2 - (rx2 * ry2)
+    pk2 = float(x + 0.5) * float( x + 0.5 ) * ry2 + (y - 1) * ( y - 1) * rx2 - rx2 * ry2
 
-        points.append(pts.Point(round(center.x + y), x ))
-        points.append(pts.Point(round(center.x - y), x ))
+    while y >= 0:
+
+        points.append(pts.Point(center.x + x, center.y + y ))
+        points.append(pts.Point(center.x + x, center.y - y ))
+        points.append(pts.Point(center.x - x, center.y + y ))
+        points.append(pts.Point(center.x - x, center.y - y ))
+
+        if pk2 > 0:
+            y -= 1
+            pk2 = pk2 - (2 * rx2 * y) + rx2
+        else:
+            x += 1
+            y -= 1
+            pk2 = pk2 + (2 * ry2 * x) - (2 * rx2 * y) + rx2
+    
 
     return points
 
